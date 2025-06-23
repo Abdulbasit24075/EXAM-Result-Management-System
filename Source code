@@ -1,0 +1,357 @@
+create database bsai24075exam_result_system;
+use bsai24075exam_result_system;
+
+create table student(
+student_id int primary key,first_name varchar(20),last_name varchar(20),father_name varchar(30),DOB date,
+gender varchar (1),address varchar (60), cnic varchar(13), email varchar(100),groupid int ,institudeid int,
+foreign key (groupid ) references  gro_up(Group_id),
+   foreign key (institudeid) references Institutes(InstituteID)
+);
+create table  gro_up (
+    Group_id int primary key,
+    Group_Name varchar (20)
+);
+create table  Institutes (
+    InstituteID int primary key, InstituteName  varchar (50),Address  varchar (60),BoardID int
+);
+
+
+create table Exam (
+    ExamID int primary key,ExamName varchar (30),Year int,BoardID int
+);
+create table ExamCenter (
+    ExamCenterID int primary key, CenterLocation varchar (50), BoardID int
+);
+create table ExamStaff (
+    StaffID int primary key,
+    StaffName varchar (50),ExamCenter_ID int,
+    foreign key (ExamCenter_ID) references ExamCenter(ExamCenterID)
+);
+drop table  Institutes;
+create table Subject (
+    SubjectID int primary key,SubjectName varchar (20)
+);
+create table Student_Subjects (
+    StudentSubjectID int primary key,
+    Student_ID int,Subject_ID int,
+     foreign key (Student_ID) references Student(student_id),foreign key (Subject_ID) REFERENCES Subject(SubjectID)
+);
+
+create table Marks (
+    MarkID  int primary key,
+    StudentID int,ExamID int,SubjectID int,ObtainedMarks int,
+    TotalMarks int,foreign key (StudentID) references Student(student_id),foreign key(ExamID) references Exam(ExamID),foreign key (SubjectID)references Subject(SubjectID)
+);
+create table ResultSummary (
+    ResultID  int primary key,StudentID int,ExamID int,
+    TotalMarks int,ObtainedMarks int,Percentage decimal(5,2),Status varchar (20),foreign key (StudentID) references Student(student_id),foreign key(ExamID) references Exam(ExamID)
+);
+create table TopperList (
+    TopperListID int primary key,StudentID int ,ExamID int ,GroupID int ,
+    BoardID int ,Position int ,foreign key (StudentID) references Student(student_id),foreign key(ExamID) references Exam(ExamID),
+    foreign key(GroupID) references Gro_up(Group_id));
+    
+    
+  create table board(
+  boardID int primary key,boardname varchar(20)
+  );
+  
+  insert into board (boardID,boardname) values (101,'lahore board'),(102,'multan board'),(103,'faislabad board'),(104,'gujrawala board');
+ insert into gro_up  (Group_id, Group_Name) values (1, 'Science'),(2, 'Arts');
+
+insert into Institutes (InstituteID, InstituteName, Address, BoardID) values
+(768, 'PGC', '123 Main St', 101),(344, 'UNIQUE', '456 Market Road', 101),(100, 'GCU', '789 Industrial Area', 101),(423, 'SUPERIOUR', '22 Park Lane', 102),
+(522, 'Pak Grammar college', '11 Civic Center', 102),(621, 'FCC', '78 Mall Road', 103),(730, 'READERS', '5 gujrawla Market', 104),(44, 'WOMEN COLLEGE FAISLABAL', '8 hall Road', 103),
+(530, 'CRESENT', 'street moon Market', 104),(421, ' KIPS FAISLABAL', '88 k Road', 103);
+
+INSERT INTO student (student_id, first_name, last_name, father_name, DOB, gender, cnic, address, email, groupid , institudeid)
+VALUES
+(1, 'Ali', 'Raza', 'Ahmed Raza', '2005-01-15', 'M', '3520112345671', 'Lahore', 'ali.raza@email.com', 1, 768),
+(2, 'Sara', 'Khan', 'Sajid Khan', '2004-12-10', 'F', '3520123456782', 'Lahore', 'sara.khan@email.com', 1, 344),
+(3, 'Usman', 'Tariq', 'Tariq Jameel', '2006-03-22', 'M', '3520234567893', 'Lahore', 'usman.tariq@email.com', 1, 100),
+(4, 'Ayesha', 'Ali', 'Asif Ali', '2005-05-20', 'F', '3520345678904', 'Multan', 'ayesha.ali@email.com', 1, 423),
+(5, 'Hamza', 'Sheikh', 'Rashid Sheikh', '2004-09-25', 'M', '3520456789015', 'Lahore', 'hamza.sheikh@email.com', 1, 100),
+(6, 'Mariam', 'Iqbal', 'Iqbal Ahmed', '2005-11-30', 'F', '3520567890126', 'Lahore', 'mariam.iqbal@email.com', 1, 100),
+(7, 'Bilal', 'Hassan', 'Naveed Hassan', '2006-02-14', 'M', '3520678901237', 'Gujranwala', 'bilal.hassan@email.com', 1, 730),
+(8, 'Fatima', 'Noor', 'Asad Noor', '2005-06-18', 'F', '3520789012348', 'Lahore', 'fatima.noor@email.com', 1, 344),
+(9, 'Zain', 'Mirza', 'Sultan Mirza', '2004-07-05', 'M', '3520890123459', 'Gujranwala', 'zain.mirza@email.com', 1, 530),
+(10, 'Hina', 'Chaudhry', 'Adeel Chaudhry', '2005-12-27', 'F', '3520901234560', 'Faisalabad', 'hina.chaudhry@email.com', 2, 421),
+(11, 'Farhan', 'Malik', 'Arshad Malik', '2005-04-10', 'M', '3521012345671', 'Lahore', 'farhan.malik@email.com', 1, 768),
+(12, 'Nimra', 'Gill', 'Sohail Gill', '2004-08-12', 'F', '3521123456782', 'Lahore', 'nimra.gill@email.com', 2, 344),
+(13, 'Saad', 'Javed', 'Jawad Javed', '2006-01-05', 'M', '3521234567893', 'Lahore', 'saad.javed@email.com', 1, 100),
+(14, 'Iqra', 'Butt', 'Irfan Butt', '2005-09-16', 'F', '3521345678904', 'Multan', 'iqra.butt@email.com', 1, 423),
+(15, 'Tahir', 'Qureshi', 'Aziz Qureshi', '2004-11-03', 'M', '3521456789015', 'Multan', 'tahir.qureshi@email.com', 1, 522),
+(16, 'Komal', 'Anwar', 'Anwar Hussain', '2005-03-09', 'F', '3521567890126', 'Faisalabad', 'komal.anwar@email.com', 1, 621),
+(17, 'Adnan', 'Sadiq', 'Sadiq Hussain', '2006-07-23', 'M', '3521678901237', 'Gujranwala', 'adnan.sadiq@email.com', 1, 730),
+(18, 'Mahnoor', 'Riaz', 'Riaz Ahmad', '2005-10-11', 'F', '3521789012348', 'Faisalabad', 'mahnoor.riaz@email.com', 2, 44),
+(19, 'Imran', 'Latif', 'Latif Khan', '2004-02-01', 'M', '3521890123459', 'Lahore', 'imran.latif@email.com', 1, 768),
+(20, 'Mehwish', 'Aslam', 'Aslam Khan', '2005-06-04', 'F', '3521901234560', 'Faisalabad', 'mehwish.aslam@email.com', 1, 421),
+(21, 'Faizan', 'Shah', 'Shahbaz Shah', '2005-08-15', 'M', '3522012345671', 'Lahore', 'faizan.shah@email.com', 1, 768),
+(22, 'Sadia', 'Nawaz', 'Nawaz Sharif', '2004-10-22', 'F', '3522123456782', 'Lahore', 'sadia.nawaz@email.com', 1, 344),
+(23, 'Waleed', 'Munir', 'Munir Ahmed', '2006-05-29', 'M', '3522234567893', 'Lahore', 'waleed.munir@email.com', 1, 100),
+(24, 'Laiba', 'Shahid', 'Shahid Mehmood', '2005-07-20', 'F', '3522345678904', 'Multan', 'laiba.shahid@email.com', 2, 423),
+(25, 'Rizwan', 'Hussain', 'Hussain Khan', '2004-09-13', 'M', '3522456789015', 'Multan', 'rizwan.hussain@email.com', 1, 522);
+INSERT INTO ExamCenter (ExamCenterID, CenterLocation, BoardID)
+VALUES
+(1, 'Lahore - Model Town Center', 101),
+(2, 'Lahore - Johar Town Center', 101),
+(3, 'Lahore - Gulberg Center', 101),
+(4, 'Multan - Cantt Center', 102),
+(5, 'Faisalabad - Jinnah Colony Center', 103),
+(6, 'Gujranwala - Civil Lines Center', 104);
+INSERT INTO ExamStaff (StaffID, StaffName, ExamCenter_ID)
+VALUES
+(1000, 'Ahmed Raza', 1),
+(1001, 'Sara Khan', 1),
+(1002, 'Usman Tariq', 2),
+(1003, 'Ayesha Ali', 2),
+(1004, 'Hamza Sheikh', 3),
+(1005, 'Mariam Iqbal', 3),
+(1006, 'Bilal Hassan', 4),
+(1007, 'Fatima Noor', 5),
+(1008, 'Zain Mirza', 6),
+(1009, 'Hina Chaudhry', 6);
+INSERT INTO Subject (SubjectID, SubjectName)
+VALUES
+(1, 'Mathematics'),
+(2, 'Physics'),
+(3, 'Chemistry'),
+(4, 'Psychology'),
+(5, 'English'),
+(6, 'Fine Arts');
+INSERT INTO Student_Subjects (StudentSubjectID, Student_ID, Subject_ID)
+VALUES
+(1, 1, 1),  
+(2, 1, 2),
+(3, 2, 3), 
+(4, 2, 2), 
+(5, 3, 1), 
+(6, 3, 2), 
+(7, 4, 3), 
+(8, 4, 2),  
+(9, 5, 1), 
+(10, 5, 2), 
+(11, 6, 1),
+(12, 6, 2),
+(13, 7, 1),
+(14, 7, 2),
+(15, 8, 1), 
+(16, 8, 2), 
+(17, 9, 1), 
+(18, 9, 2),
+(19, 10, 5),
+(20, 10, 6), 
+(21, 11, 1),
+(22, 11, 2),
+(23, 12, 4),
+(24, 12, 5),
+(25, 13, 1), 
+(26, 13, 2), 
+(27, 14, 1), 
+(28, 14, 2), 
+(29, 15, 1), 
+(30, 15, 2), 
+(31, 16, 1), 
+(32, 16, 2), 
+(33, 17, 1), 
+(34, 17, 2), 
+(35, 18, 4),
+(36, 18, 6), 
+(37, 19, 1), 
+(38, 19, 2),
+(39, 20, 1), 
+(40, 20, 2),
+(41, 21, 1),
+(42, 21, 2),
+(43, 22, 1), 
+(44, 22, 2),
+(45, 23, 1),
+(46, 23, 2),
+(47, 24, 5),
+(48, 24, 6), 
+(49, 25, 1),
+(50, 25, 2);
+INSERT INTO Exam (ExamID, ExamName, Year, BoardID)
+VALUES
+(1, 'Intermediate', 2025, 101),
+(2, 'Intermediate', 2025, 102),
+(3, 'Intermediate', 2025, 103),
+(4, 'Intermediate', 2025, 104);
+INSERT INTO Marks (MarkID, StudentID,  SubjectID,ExamID, ObtainedMarks, TotalMarks)
+VALUES
+
+(1, 1, 1,1,67,100),  
+(2, 1, 2,1,78,100),
+(3, 2, 3,1,65,100), 
+(4, 2, 2,1,90,100), 
+(5, 3, 1,1,78,100), 
+(6, 3, 2,1,45,100), 
+(7, 4, 3,2,56,100), 
+(8, 4, 2,2,99,100),  
+(9, 5, 1,1,77,100), 
+(10, 5, 2,1,89,100), 
+(11, 6, 1,1,66,100),
+(12, 6, 2,1,56,100),
+(13, 7, 1,4,88,100),
+(14, 7, 2,4,71,100),
+(15, 8, 1,1,61,100), 
+(16, 8, 2,1,98,100), 
+(17, 9, 1,4,97,100), 
+(18, 9, 2,4,98,100),
+(19, 10, 5,3,91,100),
+(20, 10, 6,3,92,100), 
+(21, 11, 1,1,94,100),
+(22, 11, 2,1,95,100),
+(23, 12, 4,1,96,100),
+(24, 12, 5,1,99,100),
+(25, 13, 1,1,100,100), 
+(26, 13, 2,1,99,100), 
+(27, 14, 1,2,81,100), 
+(28, 14, 2,2,78,100), 
+(29, 15, 1,2,69,100), 
+(30, 15, 2,2,39,100), 
+(31, 16, 1,3,49,100), 
+(32, 16, 2,3,79,100), 
+(33, 17, 1,4,74,100), 
+(34, 17, 2,4,87,100), 
+(35, 18, 4,3,92,100),
+(36, 18, 6,3,75,100), 
+(37, 19, 1,1,78,100), 
+(38, 19, 2,1,89,100),
+(39, 20, 1,3,94,100), 
+(40, 20, 2,3,69,100),
+(41, 21, 1,1,88,100),
+(42, 21, 2,1,55,100),
+(43, 22, 1,1,58,100), 
+(44, 22, 2,1,91,100),
+(45, 23, 1,1,22,100),
+(46, 23, 2,1,37,100),
+(47, 24, 5,2,99,100),
+(48, 24, 6,2,89,100), 
+(49, 25, 1,2,79,100),
+(50, 25, 2,2,83,100);
+select * from Marks;
+INSERT INTO ResultSummary (ResultID, StudentID, ExamID, TotalMarks, ObtainedMarks, Percentage, Status)
+VALUES
+(1, 1, 1, 200, 145, 72.50, 'Pass'),
+(2, 2, 1, 200, 155, 77.50, 'Pass'),
+(3, 3, 1, 200, 123, 61.50, 'Pass'),
+(4, 4, 2, 200, 155, 77.50, 'Pass'),
+(5, 5, 1, 200, 166, 83.00, 'Pass'),
+(6, 6, 1, 200, 122, 61.00, 'Pass'),
+(7, 7, 4, 200, 159, 79.50, 'Pass'),
+(8, 8, 1, 200, 159, 79.50, 'Pass'),
+(9, 9, 4, 200, 195, 97.50, 'Pass'),
+(10, 10, 3, 200, 183, 91.50, 'Pass'),
+(11, 11, 1, 200, 189, 94.50, 'Pass'),
+(12, 12, 1, 200, 195, 97.50, 'Pass'),
+(13, 13, 1, 200, 199, 99.50, 'Pass'),
+(14, 14, 2, 200, 159, 79.50, 'Pass'),
+(15, 15, 2, 200, 108, 54.00, 'Pass'),
+(16, 16, 3, 200, 128, 64.00, 'Pass'),
+(17, 17, 4, 200, 161, 80.50, 'Pass'),
+(18, 18, 3, 200, 167, 83.50, 'Pass'),
+(19, 19, 1, 200, 167, 83.50, 'Pass'),
+(20, 20, 3, 200, 163, 81.50, 'Pass'),
+(21, 21, 1, 200, 143, 71.50, 'Pass'),
+(22, 22, 1, 200, 149, 74.50, 'Pass'),
+(23, 23, 1, 200, 59, 29.50, 'Fail'),
+(24, 24, 2, 200, 188, 94.00, 'Pass'),
+(25, 25, 2, 200, 162, 81.00, 'Pass');
+
+INSERT INTO TopperList (TopperListID, StudentID, ExamID, GroupID, BoardID, Position)
+VALUES
+(1, 13, 1, 1, 101, 1),
+(2, 9, 4, 1, 104, 2),
+(3, 12, 1, 2, 101, 2),
+(4, 11, 1, 1, 101, 3);
+
+select e.Year,e.BoardID,rs.ResultID, rs.StudentID, rs.ExamID, rs.TotalMarks, rs.ObtainedMarks, rs.Percentage, rs.Status
+from exam e join resultsummary rs on e.ExamID=rs.ExamID ORDER BY e.BoardID;
+select g.Group_Name , s.first_name,s.father_name,s.DOB,s.cnic  from student s join gro_up g on s.groupid = g.Group_id
+order by g.Group_Name;
+select g.Group_Name ,count(s.student_id)  from student s join gro_up g on s.groupid = g.Group_id
+GROUP BY g.Group_Name;
+select s.first_name, s.last_name, MAX(m.ObtainedMarks) as TopScore
+from Marks m 
+join student s on m.StudentID = s.student_id group by s.student_id;
+select 
+    sub.SubjectName, 
+    MAX(m.ObtainedMarks) as TopScore
+from Marks m
+join subject sub on m.SubjectID = sub.SubjectID
+group by m.SubjectID;
+SELECT 
+    sub.SubjectName, 
+    AVG(m.ObtainedMarks) AS TopScore FROM Marks m JOIN Subject sub ON m.SubjectID = sub.SubjectID
+group by m.SubjectID;
+select b.boardname ,i.InstituteName, i.Address from board b join institutes i on b.boardID=i.BoardID order by 
+b.boardname;
+select b.boardname ,count(i.InstituteID) from board b join institutes i on b.boardID=i.BoardID group by 
+b.boardname ;
+
+select distinct t.TopperListID,s.first_name ,t.Position,i.InstituteName ,i.BoardID from institutes i  join student s
+on s.institudeid=i.InstituteID join topperlist t on s.student_id=t.StudentID order by t.TopperListID
+;
+select *  from resultsummary rs join student s on rs.StudentID=s.student_id;
+select 
+    COUNT(s.student_id) AS total, 
+    s.institudeid, 
+    i.InstituteName
+FROM 
+    Marks m
+JOIN 
+    student s ON m.StudentID = s.student_id
+JOIN 
+    institutes i ON s.institudeid = i.InstituteID
+WHERE 
+    m.ObtainedMarks > 80
+GROUP BY 
+    s.institudeid, i.InstituteName;
+select count(s.student_id) AS totalstudent,e.BoardID   from
+    Marks m  join
+    student s on  m.StudentID = s.student_id join Exam e ON m.ExamID = e.ExamID group by (e.BoardID );
+
+select s.first_name, s.last_name
+from student s
+join Institutes i ON s.institudeid = i.InstituteID
+WHERE i.InstituteName = 'GCU';
+
+select * from topperlist t join board b on t.BoardID=b.boardID order by b.boardID ; 
+
+select * from student where address ='lahore';
+
+
+update student
+set address = '123 New Street, City, Country' where student_id = 3;
+
+update Marks set ObtainedMarks = 85 where  StudentID = 5 and SubjectID = 1;
+update Exam
+set Year = 2026
+where ExamID = 1 and ExamID = 2 and ExamID = 3 and ExamID = 4;
+update institutes set InstituteName = 'New Horizon Institute' where InstituteID = 2;
+
+update ResultSummary
+SET Status = 'Passed' where ResultID = 5 AND Percentage >= 50;
+
+update Subject set SubjectName = 'Advanced Mathematics' where SubjectID = 3;
+update TopperList set Position = 1 where StudentID = 12 ;
+update Exam set BoardID = 105 where ExamID = 3;
+
+update student  set email = 'iqbal@gmail.com' where student_id = 6;
+
+update Marks
+set ObtainedMarks = ObtainedMarks + 10
+where ExamID = 1 and ObtainedMarks < 50;
+
+delete from subject where subjectid = 2;
+delete from resultsummary where studentid = 7;
+
+delete from marks where studentid = 3;
+
+delete from student where student_id = 5;
+delete from exam where examid = 4;
+
+delete from topperlist where topperlistid = 2;
+
+alter table teacher add email varchar(50);
